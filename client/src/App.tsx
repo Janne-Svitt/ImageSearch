@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useAuth0 } from "@auth0/auth0-react";
+import "./App.css";
+import LoginButton from "./components/LoginButton";
+import LogoutButton from "./components/LogoutButton";
+import { useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
+import MyComponents from "./components/MyComponent";
+import ResponseDataClass from "./modals/ResponseDataClass";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [responseData, setResponseData] = useState<ResponseDataClass[]>();
+  console.log(responseData);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://www.googleapis.com/customsearch/v1?key=${
+          import.meta.env.VITE_GOOGLE_API_KEY
+        }&cx=${import.meta.env.VITE_GOOGLE_SEARCHENGINE_ID}&q=NurpanArt`
+      )
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        setResponseData(response.data.items);
+      });
+  }, []);
+
+  console.log(AxiosError);
+
+  const { isAuthenticated } = useAuth0();
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {isAuthenticated ? (
+        <>
+          <MyComponents />
+          <LogoutButton />
+        </>
+      ) : (
+        <>
+          <ul>
+            {responseData?.map((item, index) => (
+              <li key={index}>{item.title}</li>
+            ))}
+          </ul>
+          <LoginButton />
+        </>
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
