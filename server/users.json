@@ -1,1 +1,8 @@
-[object Object]
+{
+  "users": [
+    { "userName": "Svitt-Janne", "firstName": "Albin", "lastName": "Svensson" },
+    { "userName": "Stigge", "firstName": "Stig", "lastName": "Frigmund" },
+    { "userName": "Stiffe", "firstName": "Stefan", "lastName": "Stefansson" },
+    { "userName": "JaredTheLegend", "firstName": "Jared", "lastName": "Lotus" }
+  ]
+}

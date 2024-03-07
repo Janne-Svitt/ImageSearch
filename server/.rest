@@ -1,7 +1,10 @@
 POST http://localhost:3000/users
-Content-Type: "application/json"
+Content-Type: application/json
 
-{
-    "firstName": "Ida",
-    
-}
+
+{ "id": 4, "firstName": "Jared", "lastName": "Lotus" }
+
+###
+
+GET  http://localhost:3000/users
+
