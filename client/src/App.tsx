@@ -6,10 +6,16 @@ import { useState } from "react";
 import axios from "axios";
 import MyComponents from "./components/MyComponent";
 import ResponseDataClass from "./modals/ResponseDataClass";
+import InputValueClass from "./modals/InputValueClass";
 
 function App() {
   const [responseData, setResponseData] = useState<ResponseDataClass[]>();
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState<InputValueClass>({
+    userName: "",
+    firstName: "",
+    lastName: "",
+  });
+
   console.log(inputValue);
   const URL = `https://www.googleapis.com/customsearch/v1?key=${
     import.meta.env.VITE_GOOGLE_API_KEY
@@ -26,9 +32,30 @@ function App() {
   }
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    const inputName = e.currentTarget.getAttribute("name");
+    setInputValue({ ...inputValue, [inputName!]: e.currentTarget.value });
+    console.log(inputValue);
   };
 
+  const createUserHandler = () => {
+    // axios.post(
+    //   "http://localhost:3000/users",
+    //   {
+    //     userName: inputValue.userName,
+    //     firstName: inputValue.firstName,
+    //     lastName: inputValue.lastName,
+    //   },
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // );
+
+    axios.get("http://localhost:3000/users").then(function (response) {
+      console.log(response);
+    });
+  };
   const { isAuthenticated } = useAuth0();
 
   return (
@@ -56,15 +83,48 @@ function App() {
         ))}
       </div>
 
-      <div>
+      <div className="  bg-[rgb(185,185,185)] mt-32 h-auto flex flex-col p-10 rounded-md">
+        <label className="m-4 font-black text-black " htmlFor="userName">
+          Användarnamn
+        </label>
         <input
+          className="w-34 m-auto"
           type="text"
-          name="googleSearch"
-          id="googleSearch"
+          name="userName"
+          id="userName"
           onChange={changeHandler}
         />
-        <button>Fetch</button>
-        <button>Post</button>
+        <label className=" m-4 font-black text-black " htmlFor="firstName">
+          Förnamn
+        </label>
+        <input
+          className="w-34 m-auto"
+          type="text"
+          name="firstName"
+          id="firstName"
+          onChange={changeHandler}
+        />
+        <label className=" m-4 font-black text-black  " htmlFor="lastName">
+          Efternamn
+        </label>
+        <input
+          className="w-34 m-auto"
+          type="text"
+          name="lastName"
+          id="lastName"
+          onChange={changeHandler}
+        />
+        <div className="flex flex-row">
+          <button className=" basis-1/2 bg-orange-700 m-6 h-10 rounded-md">
+            Fetch
+          </button>
+          <button
+            className=" basis-1/2 bg-orange-700 m-6 h-10 rounded-md"
+            onClick={createUserHandler}
+          >
+            Post
+          </button>
+        </div>
       </div>
     </>
   );

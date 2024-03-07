@@ -14,6 +14,7 @@ app.post("/users", (req, res) => {
     if (dataJSON.users[i].id === req.body.id)
       throw console.log("Operation Failed! ".red + "User already in system");
   }
+
   dataJSON.users.push(req.body);
   let writeData = JSON.stringify(dataJSON);
 
