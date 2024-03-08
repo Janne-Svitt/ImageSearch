@@ -38,30 +38,33 @@ function App() {
   };
 
   const createUserHandler = () => {
-    // axios.post(
-    //   "http://localhost:3000/users",
-    //   {
-    //     userName: inputValue.userName,
-    //     firstName: inputValue.firstName,
-    //     lastName: inputValue.lastName,
-    //   },
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // );
-
-    axios.get("http://localhost:3000/users").then(function (response) {
-      console.log(response);
-    });
+    axios
+      .post(
+        "http://localhost:3000/users",
+        {
+          userName: inputValue.userName,
+          firstName: inputValue.firstName,
+          lastName: inputValue.lastName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .catch(function (response) {
+        console.log(response);
+      });
   };
   const { isAuthenticated } = useAuth0();
+  const { user } = useAuth0();
 
   return (
     <>
       {isAuthenticated ? (
         <>
+          <h1>Välkommen {user?.name}</h1>
+          {console.log(user)}
           <MyComponents />
           <LogoutButton />
         </>
