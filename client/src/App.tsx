@@ -24,11 +24,16 @@ function App() {
   }&num=10&searchType=image&q=${inputValue}&lr=lang_sv`;
 
   function handleFetch() {
-    axios.get(URL).then(function (response) {
-      // handle success
-      console.log(response);
-      setResponseData(response.data.items);
-    });
+    axios
+      .get(URL)
+      .then(function (response) {
+        // handle success
+        console.log(response);
+        setResponseData(response.data.items);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   }
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
