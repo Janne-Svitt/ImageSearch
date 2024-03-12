@@ -1,13 +1,11 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import "../src/Home.css";
 import LoginButton from "../src/components/LoginButton";
-import LogoutButton from "../src/components/LogoutButton";
+
 import { useState } from "react";
 import axios from "axios";
 
 import ResponseDataClass from "../src/modals/ResponseDataClass";
 import InputValueClass from "../src/modals/InputValueClass";
-import AccountInfo from "../src/components/AccountInfo";
 
 function Home() {
   const [responseData, setResponseData] = useState<ResponseDataClass[]>();
@@ -62,8 +60,6 @@ function Home() {
         console.log(response);
       });
   };
-  const { isAuthenticated } = useAuth0();
-  const { user } = useAuth0();
 
   return (
     <>
