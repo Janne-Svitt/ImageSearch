@@ -1,14 +1,19 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../src/components/Navbar";
-import React from "react";
+import { createContext, useState } from "react";
+
+const ActiveTabContext = createContext("");
 
 export const Layout = () => {
+  const [ActiveTab, setActiveTab] = useState("Home");
   return (
     <>
-      <Navbar />
-      <main>
-        <Outlet />
-      </main>
+      <ActiveTabContext.Provider value={ActiveTab}>
+        <Navbar />
+        <main>
+          <Outlet />
+        </main>
+      </ActiveTabContext.Provider>
     </>
   );
 };

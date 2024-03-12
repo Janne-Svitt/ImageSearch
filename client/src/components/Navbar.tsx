@@ -1,28 +1,61 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { NavLink } from "react-router-dom";
-import LoginButton from "./LoginButton";
-import AccountInfo from "./AccountInfo";
-import LogoutButton from "./LogoutButton";
+import { NavLink, useLocation } from "react-router-dom";
+import Login from "./Login";
 
 const Navbar = () => {
-  const { isAuthenticated } = useAuth0();
-  const { user } = useAuth0();
+  const ActiveTab = useLocation();
+  const navbarColor = `bg-[#272727]`;
   return (
-    <nav className=" bg-red-600 w-full h-20 fixed top-0 left-0">
-      <NavLink className=" bg-slate-300 rounded-sm p-5" to="/">
-        Home
-      </NavLink>
-      <NavLink className=" bg-slate-300 rounded-sm p-5" to="/fav">
-        Favoriter
-      </NavLink>
-      {isAuthenticated ? (
-        <>
-          <h3 className=" float-start">{user?.name}</h3>
-          <AccountInfo /> <LogoutButton />
-        </>
-      ) : (
-        <LoginButton />
-      )}
+    <nav
+      className={`${navbarColor} w-full h-20 fixed border top-0 left-0 p-5 z-10`}
+    >
+      <ul className="flex  border-slate-50 border-b ">
+        <li className="-mb-px mr-1">
+          <NavLink className="" to="/">
+            <a
+              className={
+                ActiveTab.pathname === "/"
+                  ? `${navbarColor} inline-block  border-slate-50 border-l border-t border-r rounded-t py-2 px-4 text-white font-semibold`
+                  : `${navbarColor} inline-block py-2 px-4 text-slate-500 hover:text-white font-semibold`
+              }
+              href="#"
+            >
+              Home
+            </a>
+          </NavLink>
+        </li>
+        <li className="-mb-px mr-1">
+          <NavLink className=" " to="/fav">
+            <a
+              className={
+                ActiveTab.pathname === "/fav"
+                  ? `${navbarColor} inline-block  border-slate-50 border-l border-t border-r rounded-t py-2 px-4 text-white font-semibold`
+                  : `${navbarColor} inline-block py-2 px-4 text-slate-500 hover:text-white font-semibold`
+              }
+              href="#"
+            >
+              Favourites Images
+            </a>
+          </NavLink>
+        </li>
+
+        <li className="-mb-px mr-1">
+          <NavLink className=" " to="/settings">
+            <a
+              className={
+                ActiveTab.pathname === "/settings"
+                  ? `${navbarColor} inline-block  border-slate-50 border-l border-t border-r rounded-t py-2 px-4 text-white font-semibold`
+                  : `${navbarColor} inline-block py-2 px-4 text-slate-500 hover:text-white font-semibold`
+              }
+              href="#"
+            >
+              Settings
+            </a>
+          </NavLink>
+        </li>
+      </ul>
+      <div className="absolute right-10 top-5">
+        <Login />
+      </div>
     </nav>
   );
 };
