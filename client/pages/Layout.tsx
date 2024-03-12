@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../src/components/Navbar";
 import { createContext, useState } from "react";
+import FooterComp from "../src/components/FooterComp";
 
 const ActiveTabContext = createContext("");
 
@@ -10,9 +11,8 @@ export const Layout = () => {
     <>
       <ActiveTabContext.Provider value={ActiveTab}>
         <Navbar />
-        <main>
-          <Outlet />
-        </main>
+        <Outlet />
+        <FooterComp />
       </ActiveTabContext.Provider>
     </>
   );

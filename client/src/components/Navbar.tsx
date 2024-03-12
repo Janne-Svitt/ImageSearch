@@ -5,9 +5,7 @@ const Navbar = () => {
   const ActiveTab = useLocation();
   const navbarColor = `bg-[#272727]`;
   return (
-    <nav
-      className={`${navbarColor} w-full h-20 fixed border top-0 left-0 p-5 z-10`}
-    >
+    <nav className={`${navbarColor} w-full h-20  border top-0 left-0 p-5 z-10`}>
       <ul className="flex  border-slate-50 border-b ">
         <li className="-mb-px mr-1">
           <NavLink className="" to="/">

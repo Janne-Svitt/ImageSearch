@@ -64,7 +64,7 @@ function Home() {
 
   return (
     <>
-      <main className="flex h-screen bg-[rgb(37,37,37)]">
+      <main className="flex h-screen bg-[#272727] border">
         <div className="m-auto bg-slate-400 w-96 h-80 rounded-md flex flex-col p-20">
           <h1>
             Welcome! <br /> Please log in.

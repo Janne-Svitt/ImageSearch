@@ -1,13 +1,23 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { MdAccountBox } from "react-icons/md";
+import { VscAccount } from "react-icons/vsc";
 
 const AccountInfo = () => {
   const { user } = useAuth0();
   return (
-    <div className="  absolute left-2 top-2 rounded-lg h-48">
-      <MdAccountBox style={{ fontSize: "100px", margin: "auto" }} />
-      <h3>{user?.name}</h3>
-    </div>
+    <>
+      <VscAccount
+        style={{
+          fontSize: "200px",
+          margin: "auto",
+          marginTop: "2vw",
+          color: "white",
+        }}
+      />
+      <section className="m-4 text-white">
+        <h3 className=" text-2xl">{user?.name}</h3>
+        <label className=" text-gray-500">- Admin -</label>
+      </section>
+    </>
   );
 };
 
