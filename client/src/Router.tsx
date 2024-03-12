@@ -3,12 +3,14 @@ import { Layout } from "../pages/Layout";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import FavImg from "../pages/FavImg";
+import AccountSettings from "../pages/AccountSettings";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     errorElement: <NotFound />,
+
     children: [
       {
         path: "/",
@@ -18,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: "/fav",
         element: <FavImg />,
+      },
+      {
+        path: "/settings",
+        element: <AccountSettings />,
       },
     ],
   },

@@ -6,6 +6,7 @@ import axios from "axios";
 
 import ResponseDataClass from "../src/modals/ResponseDataClass";
 import InputValueClass from "../src/modals/InputValueClass";
+import { useLocation } from "react-router-dom";
 
 function Home() {
   const [responseData, setResponseData] = useState<ResponseDataClass[]>();
@@ -63,7 +64,7 @@ function Home() {
 
   return (
     <>
-      <main className="flex h-screen bg-slate-500">
+      <main className="flex h-screen bg-[rgb(37,37,37)]">
         <div className="m-auto bg-slate-400 w-96 h-80 rounded-md flex flex-col p-20">
           <h1>
             Welcome! <br /> Please log in.
