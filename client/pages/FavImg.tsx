@@ -7,9 +7,8 @@ import axios from "axios";
 
 import ResponseDataClass from "../src/modals/ResponseDataClass";
 import InputValueClass from "../src/modals/InputValueClass";
-import AccountInfo from "../src/components/AccountInfo";
 
-function Home() {
+function FavImg() {
   const [responseData, setResponseData] = useState<ResponseDataClass[]>();
   const [inputValue, setInputValue] = useState<InputValueClass>({
     userName: "",
@@ -68,15 +67,40 @@ function Home() {
   return (
     <>
       <main className="flex h-screen bg-slate-500">
-        <div className="m-auto bg-slate-400 w-96 h-80 rounded-md flex flex-col p-20">
-          <h1>
-            Welcome! <br /> Please log in.
-          </h1>
-          <LoginButton />
+        <div
+          className={
+            isAuthenticated
+              ? `m-auto bg-slate-400 w-[60vw] h-[40vw] rounded-md flex flex-row p-20 relative`
+              : `m-auto bg-slate-400 w-96 h-80 rounded-md flex flex-col p-20`
+          }
+        >
+          {isAuthenticated ? (
+            <>
+              {console.log(user)}
+
+              <input
+                type="text"
+                name="googleSearch"
+                id="googleSearch"
+                onChange={changeHandler}
+              />
+              <button onClick={() => handleFetch()}>Fetch</button>
+              <div>
+                {responseData?.map((item, index) => (
+                  <img key={index} src={item.link} style={{ width: "200px" }} />
+                ))}
+              </div>
+              <LogoutButton />
+            </>
+          ) : (
+            <>
+              <LoginButton />
+            </>
+          )}
         </div>
       </main>
     </>
   );
 }
 
-export default Home;
+export default FavImg;

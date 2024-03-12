@@ -1,11 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Layout } from "./pages/Layout";
-import { Home } from "./pages/Home";
-import { Contact } from "./pages/Contact";
-import { Booking } from "./pages/Booking";
-import { Menu } from "./pages/Menu";
-import { Admin } from "./pages/Admin";
-import { NotFound } from "./pages/NotFound";
+import { Layout } from "../pages/Layout";
+import NotFound from "../pages/NotFound";
+import Home from "../pages/Home";
+import FavImg from "../pages/FavImg";
 
 export const router = createBrowserRouter([
   {
@@ -20,7 +17,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/fav",
-        element: <Booking />,
+        element: <FavImg />,
       },
     ],
   },
