@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { VscAccount } from "react-icons/vsc";
+import "../index.css";
 
 const AccountInfo = () => {
   const { user } = useAuth0();
@@ -9,13 +10,22 @@ const AccountInfo = () => {
         style={{
           fontSize: "200px",
           margin: "auto",
-          marginTop: "2vw",
           color: "white",
         }}
       />
-      <section className="m-4 text-white">
+      <section className=" text-white mt-8">
         <h3 className=" text-2xl">{user?.name}</h3>
         <label className=" text-gray-500">- Admin -</label>
+      </section>
+      <div className="bg-gray-500 h-px  rounded-lg mt-8 mb-8 mr-4 ml-4"></div>
+      <section className=" text-white">
+        <p className=" w-60 text-sm">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quaerat
+          consectetur veniam cupiditate vitae necessitatibus aliquam qui officia
+          omnis eius a placeat maxime quis enim eveniet, eaque provident!
+          Libero, obcaecati neque!
+        </p>
+        <div className="bg-gray-500 h-px  rounded-lg mt-8 mr-4 ml-4"></div>
       </section>
     </>
   );
