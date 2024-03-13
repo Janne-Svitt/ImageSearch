@@ -66,7 +66,7 @@ function FavImg() {
 
   return (
     <>
-      <main className="flex h-screen bg-slate-500">
+      <main className="flex h-screen bg-[#272727] border">
         <div
           className={
             isAuthenticated

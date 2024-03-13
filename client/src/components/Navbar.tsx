@@ -3,20 +3,20 @@ import Login from "./Login";
 
 const Navbar = () => {
   const ActiveTab = useLocation();
-  const navbarColor = `bg-[#272727]`;
+
+  const activeTab = `bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 inline-block  border-gray-500 border-l border-t border-r rounded-t py-2 px-4 text-white font-semibold `;
+
+  const notActiveTab = `bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 rounded-t inline-block py-2 px-4 text-slate-300 hover:text-white font-semibold `;
+
   return (
     <nav
-      className={`${navbarColor} w-full h-20 fixed border top-0 left-0 p-5 z-10`}
+      className={`bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 w-full h-20 top-0 left-0 p-5 z-10`}
     >
-      <ul className="flex  border-slate-50 border-b ">
+      <ul className="flex  border-gray-500 border-b ">
         <li className="-mb-px mr-1">
           <NavLink className="" to="/">
             <a
-              className={
-                ActiveTab.pathname === "/"
-                  ? `${navbarColor} inline-block  border-slate-50 border-l border-t border-r rounded-t py-2 px-4 text-white font-semibold`
-                  : `${navbarColor} inline-block py-2 px-4 text-slate-500 hover:text-white font-semibold`
-              }
+              className={ActiveTab.pathname === "/" ? activeTab : notActiveTab}
               href="#"
             >
               Home
@@ -27,13 +27,11 @@ const Navbar = () => {
           <NavLink className=" " to="/fav">
             <a
               className={
-                ActiveTab.pathname === "/fav"
-                  ? `${navbarColor} inline-block  border-slate-50 border-l border-t border-r rounded-t py-2 px-4 text-white font-semibold`
-                  : `${navbarColor} inline-block py-2 px-4 text-slate-500 hover:text-white font-semibold`
+                ActiveTab.pathname === "/fav" ? activeTab : notActiveTab
               }
               href="#"
             >
-              Favourites Images
+              Favorites Images
             </a>
           </NavLink>
         </li>
@@ -42,9 +40,7 @@ const Navbar = () => {
           <NavLink className=" " to="/settings">
             <a
               className={
-                ActiveTab.pathname === "/settings"
-                  ? `${navbarColor} inline-block  border-slate-50 border-l border-t border-r rounded-t py-2 px-4 text-white font-semibold`
-                  : `${navbarColor} inline-block py-2 px-4 text-slate-500 hover:text-white font-semibold`
+                ActiveTab.pathname === "/settings" ? activeTab : notActiveTab
               }
               href="#"
             >
