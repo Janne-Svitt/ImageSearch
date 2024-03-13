@@ -7,6 +7,7 @@ import axios from "axios";
 import ResponseDataClass from "../src/modals/ResponseDataClass";
 import InputValueClass from "../src/modals/InputValueClass";
 import { useLocation } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Home() {
   const [responseData, setResponseData] = useState<ResponseDataClass[]>();
@@ -62,18 +63,35 @@ function Home() {
       });
   };
 
-  return (
-    <>
-      <main className="flex h-screen bg-[#272727] border">
-        <div className="m-auto bg-slate-400 w-96 h-80 rounded-md flex flex-col p-20">
-          <h1>
-            Welcome! <br /> Please log in.
-          </h1>
-          <LoginButton />
-        </div>
-      </main>
-    </>
-  );
+  const { isAuthenticated } = useAuth0();
+
+  if (isAuthenticated) {
+    return (
+      <>
+        <main className="flex h-screen  p-5 text-white">
+          <div className="m-auto shadow-[0_1px_4px_rgba(0,0,0,0.6)] bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 rounded-md w-full h-full flex flex-col p-20">
+            <h1>
+              Welcome! <br /> Please log in.
+            </h1>
+            <LoginButton />
+          </div>
+        </main>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <main className="flex h-screen  p-5 text-white">
+          <div className="m-auto bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 rounded-md w-full h-full flex flex-col p-20">
+            <h1>
+              Welcome! <br /> Please log in.
+            </h1>
+            <LoginButton />
+          </div>
+        </main>
+      </>
+    );
+  }
 }
 
 export default Home;
