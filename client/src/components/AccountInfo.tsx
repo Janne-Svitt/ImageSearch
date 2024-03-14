@@ -23,7 +23,7 @@ const AccountInfo = () => {
       </section>
       <div className="bg-gray-500 h-px  rounded-lg mt-8 mb-8 mr-4 ml-4"></div>
       <section className=" text-white mt-8 shadow-[inset_0_1px_4px_rgba(0,0,0,0.6)] rounded-md p-5">
-        <p className=" w-60 text-sm">
+        <p className=" text-sm">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quaerat
           consectetur veniam cupiditate vitae necessitatibus aliquam qui officia
           omnis eius a placeat maxime quis enim eveniet, eaque provident!

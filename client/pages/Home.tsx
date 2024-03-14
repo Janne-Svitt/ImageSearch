@@ -4,18 +4,19 @@ import LoginButton from "../src/components/LoginButton";
 import { useState } from "react";
 import axios from "axios";
 
-import ResponseDataClass from "../src/modals/ResponseDataClass";
-import InputValueClass from "../src/modals/InputValueClass";
-import { useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
+import ResponseDataClass from "../src/modals/ResponseDataClass";
+
 function Home() {
-  const [responseData, setResponseData] = useState<ResponseDataClass[]>();
-  const [inputValue, setInputValue] = useState<InputValueClass>({
-    userName: "",
-    firstName: "",
-    lastName: "",
+  const [responseData, setResponseData] = useState({
+    items: [],
+    searchInformation: {
+      formattedSearchTime: "",
+      formattedTotalResults: "",
+    },
   });
+  const [inputValue, setInputValue] = useState("");
 
   console.log(inputValue);
   const URL = `https://www.googleapis.com/customsearch/v1?key=${
@@ -30,7 +31,10 @@ function Home() {
       .then(function (response) {
         // handle success
         console.log(response);
-        setResponseData(response.data.items);
+        setResponseData({
+          items: response.data.items,
+          searchInformation: response.data.searchInformation,
+        });
       })
       .catch(function (err) {
         console.log(err);
@@ -38,55 +42,91 @@ function Home() {
   }
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputName = e.currentTarget.getAttribute("name");
-    setInputValue({ ...inputValue, [inputName!]: e.currentTarget.value });
+    setInputValue(e.currentTarget.value);
     console.log(inputValue);
   };
 
-  const createUserHandler = () => {
-    axios
-      .post(
-        "http://localhost:3000/users",
-        {
-          userName: inputValue.userName,
-          firstName: inputValue.firstName,
-          lastName: inputValue.lastName,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .catch(function (response) {
-        console.log(response);
-      });
-  };
+  // const createUserHandler = () => {
+  //   axios
+  //     .post(
+  //       "http://localhost:3000/users",
+  //       {
+  //         userName: inputValue.userName,
+  //         firstName: inputValue.firstName,
+  //         lastName: inputValue.lastName,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .catch(function (response) {
+  //       console.log(response);
+  //     });
+  // };
 
   const { isAuthenticated } = useAuth0();
 
   if (isAuthenticated) {
+    console.log(responseData.items);
     return (
       <>
-        <main className="flex h-screen  p-5 text-white">
-          <div className="m-auto shadow-[0_1px_4px_rgba(0,0,0,0.6)] bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 rounded-md w-full h-full flex flex-col p-20">
-            <h1>
-              Welcome! <br /> Please log in.
-            </h1>
-            <LoginButton />
-          </div>
+        <div className="m-auto mt-5 bg-neutral-900 shadow-[0_4px_4px_rgba(0,0,0,0.6)] rounded-md w-[96%] p-5">
+          <section className="flex  ">
+            <input
+              onChange={(e) => changeHandler(e)}
+              type="text"
+              className="text-black shadow-[0_2px_4px_rgba(0,0,0,0.6)] rounded-md mr-2 w-[75%] flex-auto p-4 h-2"
+            />
+            <button
+              onClick={handleFetch}
+              className=" text-white  bg-neutral-900 w-[5%] p-1 rounded-md self-center shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex-auto text-center hover:shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)] hover:text-sm hover:p-1"
+            >
+              Search
+            </button>
+          </section>
+          {responseData.searchInformation.formattedTotalResults && (
+            <section className="mt-2 text-stone-700 text-[11px]">
+              <p>
+                {responseData.searchInformation.formattedTotalResults} results
+                on {responseData.searchInformation.formattedSearchTime} sec
+              </p>
+            </section>
+          )}
+        </div>
+
+        <main className="bg-neutral-900 flex min-h-[500px] p-8 m-auto mt-5 mb-5 w-[96%] text-white shadow-[0_1px_4px_rgba(0,0,0,0.6)] ">
+          <section>
+            <ul className="grid grid-cols-4 gap-6">
+              {responseData.items.map(
+                (img: ResponseDataClass, index: number) => (
+                  <li key={index} className="">
+                    <article className="bg-neutral-900 rounded-sm p-2 shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
+                      {" "}
+                      <img src={img.link} alt="" className="rounded-md" />
+                      <p className="text-stone-700 text-sm text-center">
+                        {img.title}
+                      </p>
+                    </article>
+                  </li>
+                )
+              )}
+            </ul>
+          </section>
         </main>
       </>
     );
   } else {
     return (
       <>
-        <main className="flex h-screen  p-5 text-white">
-          <div className="m-auto bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 rounded-md w-full h-full flex flex-col p-20">
-            <h1>
-              Welcome! <br /> Please log in.
-            </h1>
-            <LoginButton />
+        <main className="flex h-screen m-auto mt-5 mb-5 w-[96%] text-white shadow-[0_1px_4px_rgba(0,0,0,0.6)] ">
+          <div className="m-auto bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 shadow-[0_1px_4px_rgba(0,0,0,0.6)] rounded-md w-full h-full flex flex-col p-20">
+            <div className="m-auto text-center">
+              <h1>Welcome to this Image Search Application made by Albin</h1>
+              <h2>To continue you need to login!</h2>
+              <LoginButton />
+            </div>
           </div>
         </main>
       </>
