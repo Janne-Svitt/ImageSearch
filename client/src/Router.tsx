@@ -4,6 +4,7 @@ import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import FavImg from "../pages/FavImg";
 import AccountSettings from "../pages/AccountSettings";
+import LoginPage from "../pages/LoginPage";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,11 @@ export const router = createBrowserRouter([
       {
         path: "/settings",
         element: <AccountSettings />,
+      },
+
+      {
+        path: "/Login",
+        element: <LoginPage />,
       },
     ],
   },
