@@ -22,7 +22,6 @@ app.post("/users", (req, res) => {
   dataJSON.users.push(req.body);
   let writeData = JSON.stringify(dataJSON);
   fs.writeFileSync("./users.json", writeData);
-  console.log(dataJSON);
   console.log("User was not find. Create new user. Operation Success!".green);
   res.end();
 });
@@ -36,6 +35,12 @@ app.post("/usersAddFav", (req, res) => {
   let userFavImgData = dataJSON.users.find(
     (user) => user.userMail === userData
   ).favImg;
+  for (let i = 0; i < userFavImgData.length; i++) {
+    if (userFavImgData[i].link === req.body.favImg.link) {
+      throw res.send("Already Liked");
+    }
+  }
+
   userFavImgData.push(req.body.favImg);
   console.log(
     `
@@ -52,12 +57,9 @@ app.post("/usersAddFav", (req, res) => {
 app.get("/usersFavImg", (req, res) => {
   let data = fs.readFileSync("./users.json");
   let dataJSON = JSON.parse(data);
-  let userData = req.body.userMail;
-  let userFavImgData = dataJSON.users.find(
-    (user) => user.userMail === userData
-  ).favImg;
-  console.log(userFavImgData);
-  res.send(userFavImgData);
+  let userData = req.params.userMail;
+
+  res.send(dataJSON);
   res.end();
 });
 

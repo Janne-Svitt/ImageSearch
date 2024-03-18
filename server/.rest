@@ -8,4 +8,4 @@ Content-Type: application/json
 GET  http://localhost:3000/usersFavImg
 Content-Type: application/json
 
-{"userMail":"Albin.Svensson@medieinstitutet.se"}
+{ "userMail": "ALBIN" }

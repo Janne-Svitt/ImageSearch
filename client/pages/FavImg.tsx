@@ -3,19 +3,41 @@ import { Navigate } from "react-router-dom";
 import "../src/Home.css";
 
 import FavImgContainers from "../src/components/FavImgContainers";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 function FavImg() {
   const { isAuthenticated, user } = useAuth0();
-  const imgData = axios.get("http://localhost:3000/usersFavImg");
+  const [userFavImgData, setUserFavImgData] = useState([]);
+  useEffect(
+    function () {
+      axios
+        .get("http://localhost:3000/usersFavImg", {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then(function (response) {
+          setUserFavImgData(
+            response.data.users.find(
+              (userData) => userData.userMail === user?.email
+            ).favImg
+          );
+        });
+    },
+    [user?.email]
+  );
+
+  console.log(userFavImgData);
 
   if (isAuthenticated) {
     return (
-      <main className="flex w-full h-screen p-5 text-white">
-        <div className="m-auto shadow-[0_1px_4px_rgba(0,0,0,0.6)] bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 rounded-md w-full h-full flex flex-col p-20">
-          <FavImgContainers imgData={imgData} />
-        </div>
+      <main className="bg-neutral-900 flex min-h-[500px] p-8 m-auto mt-5 mb-5 w-[96%] text-white shadow-[0_1px_4px_rgba(0,0,0,0.6)] ">
+        <ul className="grid grid-cols-4 gap-6">
+          {userFavImgData.map((img, index) => (
+            <li key={index}>
+              <FavImgContainers imgData={img} />
+            </li>
+          ))}
+        </ul>
       </main>
     );
   } else {
