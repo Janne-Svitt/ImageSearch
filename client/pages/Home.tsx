@@ -1,14 +1,14 @@
 import "../src/Home.css";
 import LoginButton from "../src/components/LoginButton";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-
 import { useAuth0 } from "@auth0/auth0-react";
-
 import ResponseDataClass from "../src/modals/ResponseDataClass";
+import { FaHeart } from "react-icons/fa";
+import SearchImg from "../src/components/SearchImg";
 
 function Home() {
+  const { isAuthenticated, user } = useAuth0();
   const [responseData, setResponseData] = useState({
     items: [],
     searchInformation: {
@@ -17,6 +17,22 @@ function Home() {
     },
   });
   const [inputValue, setInputValue] = useState("");
+
+  useEffect(
+    function () {
+      if (isAuthenticated) {
+        console.log(user?.email);
+        axios.post(
+          "http://localhost:3000/users",
+          { userMail: user?.email, favImg: [] },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+      }
+    },
+    [isAuthenticated, user?.email]
+  );
 
   console.log(inputValue);
   const URL = `https://www.googleapis.com/customsearch/v1?key=${
@@ -46,28 +62,6 @@ function Home() {
     console.log(inputValue);
   };
 
-  // const createUserHandler = () => {
-  //   axios
-  //     .post(
-  //       "http://localhost:3000/users",
-  //       {
-  //         userName: inputValue.userName,
-  //         firstName: inputValue.firstName,
-  //         lastName: inputValue.lastName,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     )
-  //     .catch(function (response) {
-  //       console.log(response);
-  //     });
-  // };
-
-  const { isAuthenticated } = useAuth0();
-
   if (isAuthenticated) {
     console.log(responseData.items);
     return (
@@ -86,6 +80,7 @@ function Home() {
               Search
             </button>
           </section>
+
           {responseData.searchInformation.formattedTotalResults && (
             <section className="mt-2 text-stone-700 text-[11px]">
               <p>
@@ -102,13 +97,7 @@ function Home() {
               {responseData.items.map(
                 (img: ResponseDataClass, index: number) => (
                   <li key={index} className="">
-                    <article className="bg-neutral-900 rounded-sm p-2 shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
-                      {" "}
-                      <img src={img.link} alt="" className="rounded-md" />
-                      <p className="text-stone-700 text-sm text-center">
-                        {img.title}
-                      </p>
-                    </article>
+                    <SearchImg imgData={img} />
                   </li>
                 )
               )}
