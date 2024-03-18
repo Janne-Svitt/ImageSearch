@@ -26,8 +26,6 @@ function FavImg() {
     [user?.email]
   );
 
-  console.log(userFavImgData);
-
   if (isAuthenticated) {
     return (
       <main className="bg-neutral-900 flex min-h-[500px] p-8 m-auto mt-5 mb-5 w-[96%] text-white shadow-[0_1px_4px_rgba(0,0,0,0.6)] ">

@@ -16,7 +16,8 @@ app.post("/users", (req, res) => {
   let dataJSON = JSON.parse(data);
   for (let i = 0; i < dataJSON.users.length; i++) {
     if (dataJSON.users[i].userMail === req.body.userMail)
-      throw console.log("User find! Operation Success!".green);
+      return console.log("User find! Operation Success!".green);
+    res.end();
   }
 
   dataJSON.users.push(req.body);

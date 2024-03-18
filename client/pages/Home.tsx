@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import ResponseDataClass from "../src/modals/ResponseDataClass";
-import { FaHeart } from "react-icons/fa";
+
 import SearchImg from "../src/components/SearchImg";
 
 function Home() {
@@ -21,7 +21,6 @@ function Home() {
   useEffect(
     function () {
       if (isAuthenticated) {
-        console.log(user?.email);
         axios.post(
           "http://localhost:3000/users",
           { userMail: user?.email, favImg: [] },
@@ -34,7 +33,6 @@ function Home() {
     [isAuthenticated, user?.email]
   );
 
-  console.log(inputValue);
   const URL = `https://www.googleapis.com/customsearch/v1?key=${
     import.meta.env.VITE_GOOGLE_API_KEY
   }&cx=${
@@ -46,7 +44,6 @@ function Home() {
       .get(URL)
       .then(function (response) {
         // handle success
-        console.log(response);
         setResponseData({
           items: response.data.items,
           searchInformation: response.data.searchInformation,
@@ -59,11 +56,9 @@ function Home() {
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);
-    console.log(inputValue);
   };
 
   if (isAuthenticated) {
-    console.log(responseData.items);
     return (
       <>
         <div className="m-auto mt-5 bg-neutral-900 shadow-[0_4px_4px_rgba(0,0,0,0.6)] rounded-md w-[96%] p-5">
