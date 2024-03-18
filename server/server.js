@@ -9,24 +9,61 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// ----
+
 app.post("/users", (req, res) => {
   let data = fs.readFileSync("./users.json");
   let dataJSON = JSON.parse(data);
   for (let i = 0; i < dataJSON.users.length; i++) {
-    if (dataJSON.users[i].userName === req.body.userName)
-      throw (
-        (res.send("Operation Failed! ".red + "User already in system"),
-        console.log("Operation Failed! ".red + "User already in system"))
-      );
+    if (dataJSON.users[i].userMail === req.body.userMail)
+      throw console.log("User find! Operation Success!".green);
   }
 
   dataJSON.users.push(req.body);
   let writeData = JSON.stringify(dataJSON);
   fs.writeFileSync("./users.json", writeData);
-  console.log(dataJSON);
-  console.log("Operation Success!".green);
+  console.log("User was not find. Create new user. Operation Success!".green);
   res.end();
 });
+
+// ----
+
+app.post("/usersAddFav", (req, res) => {
+  let data = fs.readFileSync("./users.json");
+  let dataJSON = JSON.parse(data);
+  let userData = req.body.userMail;
+  let userFavImgData = dataJSON.users.find(
+    (user) => user.userMail === userData
+  ).favImg;
+  for (let i = 0; i < userFavImgData.length; i++) {
+    if (userFavImgData[i].link === req.body.favImg.link) {
+      throw res.send("Already Liked");
+    }
+  }
+
+  userFavImgData.push(req.body.favImg);
+  console.log(
+    `
+  Img Added 
+  `.green
+  );
+  let writeData = JSON.stringify(dataJSON);
+  fs.writeFileSync("./users.json", writeData);
+  res.end();
+});
+
+// ----
+
+app.get("/usersFavImg", (req, res) => {
+  let data = fs.readFileSync("./users.json");
+  let dataJSON = JSON.parse(data);
+  let userData = req.params.userMail;
+
+  res.send(dataJSON);
+  res.end();
+});
+
+// ----
 
 app.get("/users", (req, res) => {
   res.send(JSON.parse(fs.readFileSync("./users.json")));

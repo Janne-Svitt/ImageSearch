@@ -1,10 +1,11 @@
-POST http://localhost:3000/users
+POST http://localhost:3000/usersAddFav
 Content-Type: application/json
 
-
-{ "userName": "NurpanPurpan", "firstName": "Nur", "lastName": "Rydberg" }
-
+{"userMail":"Albin.Svensson@medieinstitutet.se",
+"favImg":"https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg"}
 ###
 
-GET  http://localhost:3000/users
+GET  http://localhost:3000/usersFavImg
+Content-Type: application/json
 
+{ "userMail": "ALBIN" }
