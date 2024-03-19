@@ -4,7 +4,7 @@ An image search application that use Google Custom Api and auth0
 
 ## Packages Used
 
-React, Vite, Express, Node, Axios, Typescript
+React, Vite, Express, Node, Axios, Typescript, Joi
 
 
 ## Installing VITE
@@ -40,4 +40,10 @@ Tailwind
 ```
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
+```
+
+Validation with Joi
+```
+npm install joi
+
 ```
