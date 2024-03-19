@@ -1,5 +1,4 @@
 import "../src/Home.css";
-import LoginButton from "../src/components/LoginButton";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -17,6 +16,7 @@ function Home() {
     },
   });
   const [inputValue, setInputValue] = useState("");
+  const { loginWithRedirect } = useAuth0();
 
   useEffect(
     function () {
@@ -109,7 +109,12 @@ function Home() {
             <div className="m-auto text-center">
               <h1>Welcome to this Image Search Application made by Albin</h1>
               <h2>To continue you need to login!</h2>
-              <LoginButton />
+              <button
+                className=" bg-neutral-900 w-28 p-3 rounded-md mt-5 self-center shadow-[0_2px_4px_rgba(0,0,0,0.6)] text-center hover:shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)] hover:text-sm hover:p-4"
+                onClick={() => loginWithRedirect()}
+              >
+                Login
+              </button>
             </div>
           </div>
         </main>
