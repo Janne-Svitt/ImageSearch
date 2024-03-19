@@ -14,38 +14,30 @@ const Navbar = () => {
     >
       <ul className="flex gap-4">
         <li className="-mb-px mr-1">
-          <NavLink className="" to="/">
-            <a
-              className={ActiveTab.pathname === "/" ? activeTab : notActiveTab}
-              href="#"
-            >
-              Home
-            </a>
+          <NavLink
+            className={ActiveTab.pathname === "/" ? activeTab : notActiveTab}
+            to="/"
+          >
+            Home
           </NavLink>
         </li>
         <li className="-mb-px mr-1">
-          <NavLink className=" " to="/fav">
-            <a
-              className={
-                ActiveTab.pathname === "/fav" ? activeTab : notActiveTab
-              }
-              href="#"
-            >
-              Favorites Images
-            </a>
+          <NavLink
+            className={ActiveTab.pathname === "/fav" ? activeTab : notActiveTab}
+            to="/fav"
+          >
+            Favorites Images
           </NavLink>
         </li>
 
         <li className="-mb-px mr-1">
-          <NavLink className=" " to="/settings">
-            <a
-              className={
-                ActiveTab.pathname === "/settings" ? activeTab : notActiveTab
-              }
-              href="#"
-            >
-              Settings
-            </a>
+          <NavLink
+            className={
+              ActiveTab.pathname === "/settings" ? activeTab : notActiveTab
+            }
+            to="/settings"
+          >
+            Settings
           </NavLink>
         </li>
         <div className=" absolute right-12 top-12">

@@ -14,6 +14,10 @@ function Home() {
       formattedSearchTime: "",
       formattedTotalResults: "",
     },
+    spelling: {
+      htmlCorrectedQuery: "",
+      correctedQuery: "",
+    },
   });
   const [inputValue, setInputValue] = useState("");
   const { loginWithRedirect } = useAuth0();
@@ -33,23 +37,31 @@ function Home() {
     [isAuthenticated, user?.email]
   );
 
-  const URL = `https://www.googleapis.com/customsearch/v1?key=${
-    import.meta.env.VITE_GOOGLE_API_KEY
-  }&cx=${
-    import.meta.env.VITE_GOOGLE_SEARCHENGINE_ID
-  }&num=10&searchType=image&q=${inputValue}&lr=lang_sv`;
+  function handleFetch(searchInput: string) {
+    const URL = `https://www.googleapis.com/customsearch/v1?key=${
+      import.meta.env.VITE_GOOGLE_API_KEY
+    }&cx=${
+      import.meta.env.VITE_GOOGLE_SEARCHENGINE_ID
+    }&num=10&searchType=image&q=${searchInput}&lr=lang_sv`;
 
-  function handleFetch() {
     axios
       .get(URL)
       .then(function (response) {
         // handle success
-        console.log(response);
-
-        setResponseData({
-          items: response.data.items,
-          searchInformation: response.data.searchInformation,
-        });
+        console.log(typeof response.data.spelling === "undefined");
+        if (typeof response.data.spelling === "undefined") {
+          setResponseData({
+            items: response.data.items,
+            searchInformation: response.data.searchInformation,
+            spelling: { htmlCorrectedQuery: "", correctedQuery: "" },
+          });
+        } else {
+          setResponseData({
+            items: response.data.items,
+            searchInformation: response.data.searchInformation,
+            spelling: response.data.spelling,
+          });
+        }
       })
       .catch(function (err) {
         console.log(err);
@@ -68,24 +80,45 @@ function Home() {
             <input
               onChange={(e) => changeHandler(e)}
               type="text"
+              value={inputValue}
+              id="searchInputField"
               className="text-black shadow-[0_2px_4px_rgba(0,0,0,0.6)] rounded-md mr-2 w-[75%] flex-auto p-4 h-2"
             />
             <button
-              onClick={handleFetch}
+              onClick={() => handleFetch(inputValue)}
               className=" text-white  bg-neutral-900 w-[5%] p-1 rounded-md self-center shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex-auto text-center hover:shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)] hover:text-sm hover:p-1"
             >
               Search
             </button>
           </section>
 
-          {responseData.searchInformation.formattedTotalResults && (
-            <section className="mt-2 text-stone-700 text-[11px]">
-              <p>
+          <section className="mt-2 text-stone-700 text-[11px]">
+            {responseData.searchInformation.formattedTotalResults && (
+              <p className="inline">
                 {responseData.searchInformation.formattedTotalResults} results
                 on {responseData.searchInformation.formattedSearchTime} sec
               </p>
-            </section>
-          )}
+            )}{" "}
+            {responseData.spelling.correctedQuery !== "" ? (
+              <p className=" text-[16px] text-red-500">
+                Menade du:{" "}
+                <span className="text-blue-500 hover:cursor-pointer hover:underline">
+                  <i>
+                    <b
+                      onClick={() => {
+                        setInputValue(responseData.spelling.correctedQuery);
+                        handleFetch(responseData.spelling.correctedQuery);
+                      }}
+                    >
+                      {responseData.spelling.correctedQuery}
+                    </b>
+                  </i>
+                </span>
+              </p>
+            ) : (
+              <></>
+            )}
+          </section>
         </div>
 
         <main className="bg-neutral-900 flex min-h-[500px] p-8 m-auto mt-5 mb-5 w-[96%] text-white shadow-[0_1px_4px_rgba(0,0,0,0.6)] ">
