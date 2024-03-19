@@ -44,6 +44,8 @@ function Home() {
       .get(URL)
       .then(function (response) {
         // handle success
+        console.log(response);
+
         setResponseData({
           items: response.data.items,
           searchInformation: response.data.searchInformation,
