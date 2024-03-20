@@ -139,8 +139,8 @@ function Home() {
   } else {
     return (
       <>
-        <main className="flex h-screen m-auto mt-5 mb-5 w-[96%] text-white shadow-[0_1px_4px_rgba(0,0,0,0.6)] ">
-          <div className="m-auto bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 shadow-[0_1px_4px_rgba(0,0,0,0.6)] rounded-md w-full h-full flex flex-col p-20">
+        <main className="flex min-h-[500px] m-auto  text-white w-[96%]">
+          <div className="m-auto bg-neutral-900 shadow-[0_1px_4px_rgba(0,0,0,0.6)] rounded-md w-1/2 h-full flex flex-col p-20">
             <div className="m-auto text-center">
               <h1>Welcome to this Image Search Application made by Albin</h1>
               <h2>To continue you need to login!</h2>

@@ -62,9 +62,6 @@ const SearchImg = (props: ISearchImgProps) => {
         {heartToggle ||
         userFavImgData.find((img) => img.link === props.imgData.link) ? (
           <FaHeart
-            onClick={() => {
-              setHeartToggle(false);
-            }}
             style={{
               color: "red",
               fontSize: "20px",
@@ -80,12 +77,12 @@ const SearchImg = (props: ISearchImgProps) => {
               setHeartToggle(true);
             }}
             style={{
-              color: "white",
               fontSize: "20px",
               position: "absolute",
               marginLeft: "10px",
               marginTop: "10px",
             }}
+            className="text-white hover:text-slate-400 cursor-pointer"
           />
         )}
 

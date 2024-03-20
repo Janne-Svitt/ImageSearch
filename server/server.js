@@ -20,41 +20,78 @@ app.post("/users", (req, res) => {
   const dataJSON = JSON.parse(data);
   for (let i = 0; i < dataJSON.users.length; i++) {
     if (dataJSON.users[i].userMail === req.body.userMail)
-      return console.log("User find! Operation Success!".green);
+      return console.log(
+        `
+--> User find! 
+--> ${"Operation Success!".green}
+    `
+      );
     res.end();
   }
 
   dataJSON.users.push(req.body);
   const writeData = JSON.stringify(dataJSON);
   fs.writeFileSync("./users.json", writeData);
-  console.log("User was not find. Creating new user. Operation Success!".green);
+  console.log(
+    `
+--> User Was Not Find. 
+--> Creating New User. 
+--> ${"Operation Success!".green}
+    `
+  );
   res.end();
 });
 
 // --------------------------------------------------------
 
 app.post("/usersAddFav", (req, res) => {
-  let data = fs.readFileSync("./users.json");
-  let dataJSON = JSON.parse(data);
-  let userData = req.body.userMail;
+  const data = fs.readFileSync("./users.json");
+  const dataJSON = JSON.parse(data);
+  const userData = req.body.userMail;
   let userFavImgData = dataJSON.users.find(
     (user) => user.userMail === userData
   ).favImg;
-  for (let i = 0; i < userFavImgData.length; i++) {
-    if (userFavImgData[i].link === req.body.favImg.link) {
-      throw res.send("Already Liked");
-    }
-  }
 
   userFavImgData.push(req.body.favImg);
   console.log(
     `
-  Img Added 
-  `.green
+--> Img ${"Added".green} 
+`
   );
-  let writeData = JSON.stringify(dataJSON);
+  const writeData = JSON.stringify(dataJSON);
   fs.writeFileSync("./users.json", writeData);
   res.end();
+});
+
+// --------------------------------------------------------
+// Removes Img from user
+app.delete("/usersRemoveFav", (req, res) => {
+  const data = fs.readFileSync("./users.json");
+  const dataJSON = JSON.parse(data);
+  const userData = req.body;
+
+  // Find only the array with favImg for the specific user
+  let userFavImgData = dataJSON.users.find(
+    (user) => user.userMail === userData.userMail
+  );
+
+  // Filter out everything that is not true with Img we want to remove
+  const userFavImgDataFilter = userFavImgData.favImg.filter(
+    (favImg) => favImg.link !== userData.favImg.link
+  );
+
+  console.log(
+    `
+--> Img ${"Removed".red}
+  `
+  );
+
+  // Overwrite the old favImg array with new array
+  userFavImgData.favImg = userFavImgDataFilter;
+
+  const writeData = JSON.stringify(dataJSON);
+  fs.writeFileSync("./users.json", writeData);
+  res.status(200).json(userFavImgData);
 });
 
 // --------------------------------------------------------
@@ -62,8 +99,6 @@ app.post("/usersAddFav", (req, res) => {
 app.get("/usersFavImg", (req, res) => {
   let data = fs.readFileSync("./users.json");
   let dataJSON = JSON.parse(data);
-  let userData = req.params.userMail;
-
   res.send(dataJSON);
   res.end();
 });
