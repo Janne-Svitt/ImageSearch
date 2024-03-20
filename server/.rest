@@ -16,3 +16,15 @@ POST  http://localhost:3000/users
 Content-Type: application/json
 
 { "userMail": "ALBIN" }
+
+###
+DELETE http://localhost:3000/usersRemoveFav
+Content-Type: application/json
+
+{"userMail":"Albin.Svensson@medieinstitutet.se", "favImg":{
+          "kind": "customsearch#result",
+          "title": "Domestic cat",
+          "htmlTitle": "Domestic <b>cat</b>",
+          "link": "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_16x9.jpg",
+          "displayLink": "www.nationalgeographic.com"
+        }}

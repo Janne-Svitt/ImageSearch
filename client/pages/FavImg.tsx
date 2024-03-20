@@ -9,6 +9,7 @@ import axios from "axios";
 function FavImg() {
   const { isAuthenticated, user } = useAuth0();
   const [userFavImgData, setUserFavImgData] = useState([]);
+
   useEffect(
     function () {
       axios
@@ -32,7 +33,12 @@ function FavImg() {
         <ul className="grid grid-cols-4 gap-6">
           {userFavImgData.map((img, index) => (
             <li key={index}>
-              <FavImgContainers imgData={img} />
+              <FavImgContainers
+                imgData={img}
+                setUserFavImgData={(userFavImg) =>
+                  setUserFavImgData(userFavImg)
+                }
+              />
             </li>
           ))}
         </ul>

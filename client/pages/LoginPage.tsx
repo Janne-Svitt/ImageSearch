@@ -5,7 +5,7 @@ const LoginPage = () => {
   const { loginWithRedirect } = useAuth0();
   return (
     <>
-      <main className="flex h-screen  p-5 text-white">
+      <main className="flex min-h-[500px]  p-5 text-white">
         <div className=" justify-center m-auto bg-neutral-900 rounded-md h-2/3 w-1/2 flex flex-col p-20 shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
           <div className=" bg-neutral-900 m-auto rounded-md shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] h-[140px] w-[140px] p-4">
             <FaLock
