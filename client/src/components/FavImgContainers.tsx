@@ -10,6 +10,8 @@ interface ISearchImgProps {
 
 const FavImgContainers = (props: ISearchImgProps) => {
   const { user } = useAuth0();
+
+  // Send information for what img to remove from user fav images
   function removeHandler() {
     axios
       .delete("http://localhost:3000/usersRemoveFav", {

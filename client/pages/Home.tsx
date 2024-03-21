@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import ResponseDataClass from "../src/modals/ResponseDataClass";
-
 import SearchImg from "../src/components/SearchImg";
 
 function Home() {
@@ -22,6 +21,7 @@ function Home() {
   const [inputValue, setInputValue] = useState("");
   const { loginWithRedirect } = useAuth0();
 
+  // Check user
   useEffect(
     function () {
       if (isAuthenticated) {
@@ -37,6 +37,7 @@ function Home() {
     [isAuthenticated, user?.email]
   );
 
+  // Fetch googlesearch
   function handleFetch(searchInput: string) {
     const URL = `https://www.googleapis.com/customsearch/v1?key=${
       import.meta.env.VITE_GOOGLE_API_KEY
@@ -47,8 +48,6 @@ function Home() {
     axios
       .get(URL)
       .then(function (response) {
-        // handle success
-        console.log(typeof response.data.spelling === "undefined");
         if (typeof response.data.spelling === "undefined") {
           setResponseData({
             items: response.data.items,
@@ -68,6 +67,7 @@ function Home() {
       });
   }
 
+  // Change search value in input
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value);
   };
