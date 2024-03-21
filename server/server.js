@@ -2,7 +2,11 @@ const fs = require("fs");
 const colors = require("colors");
 const express = require("express");
 const cors = require("cors");
-const { schema } = require("../server/validation/userValidation");
+const {
+  schema,
+  schemaRemoveFav,
+  schemaAddFav,
+} = require("../server/validation/userValidation");
 const Joi = require("joi");
 
 const app = express();
@@ -10,14 +14,21 @@ app.use(express.json());
 app.use(cors());
 
 // --------------------------------------------------------
+// --------------------------------------------------------
+
 // Check if user are in system, if not creating new
 app.post("/users", (req, res) => {
+  // Validate with Joi
   const { error } = schema.validate(req.body);
   if (error) {
     return res.status(400).json(error.details[0].message);
   }
+
+  // Read file
   const data = fs.readFileSync("./users.json");
   const dataJSON = JSON.parse(data);
+
+  // Check if user already in file
   for (let i = 0; i < dataJSON.users.length; i++) {
     if (dataJSON.users[i].userMail === req.body.userMail)
       return console.log(
@@ -29,6 +40,7 @@ app.post("/users", (req, res) => {
     res.end();
   }
 
+  // If user is not in file, create user
   dataJSON.users.push(req.body);
   const writeData = JSON.stringify(dataJSON);
   fs.writeFileSync("./users.json", writeData);
@@ -43,8 +55,15 @@ app.post("/users", (req, res) => {
 });
 
 // --------------------------------------------------------
+// --------------------------------------------------------
 
+// Add img to user favimg
 app.post("/usersAddFav", (req, res) => {
+  // Validate with Joi
+  const { error } = schemaAddFav.validate(req.body);
+  if (error) {
+    return res.status(400).json(error.details[0].message);
+  }
   const data = fs.readFileSync("./users.json");
   const dataJSON = JSON.parse(data);
   const userData = req.body.userMail;
@@ -52,6 +71,7 @@ app.post("/usersAddFav", (req, res) => {
     (user) => user.userMail === userData
   ).favImg;
 
+  // Push in chosen img
   userFavImgData.push(req.body.favImg);
   console.log(
     `
@@ -64,8 +84,18 @@ app.post("/usersAddFav", (req, res) => {
 });
 
 // --------------------------------------------------------
+// --------------------------------------------------------
+
 // Removes Img from user
 app.delete("/usersRemoveFav", (req, res) => {
+  // Validate with Joi
+  const { error } = schemaRemoveFav.validate(req.body);
+  if (error) {
+    console.log(error.details[0].message);
+    return res.status(400).json(error.details[0].message);
+  }
+
+  // Read file
   const data = fs.readFileSync("./users.json");
   const dataJSON = JSON.parse(data);
   const userData = req.body;
@@ -89,11 +119,13 @@ app.delete("/usersRemoveFav", (req, res) => {
   // Overwrite the old favImg array with new array
   userFavImgData.favImg = userFavImgDataFilter;
 
+  // Write back to file
   const writeData = JSON.stringify(dataJSON);
   fs.writeFileSync("./users.json", writeData);
   res.status(200).json(userFavImgData);
 });
 
+// --------------------------------------------------------
 // --------------------------------------------------------
 
 app.get("/usersFavImg", (req, res) => {
@@ -104,7 +136,9 @@ app.get("/usersFavImg", (req, res) => {
 });
 
 // --------------------------------------------------------
+// --------------------------------------------------------
 
+// Read file and send it to page
 app.get("/users", (req, res) => {
   res.send(JSON.parse(fs.readFileSync("./users.json")));
 });

@@ -13,6 +13,8 @@ const SearchImg = (props: ISearchImgProps) => {
   const { user } = useAuth0();
   const [heartToggle, setHeartToggle] = useState(false);
   const [userFavImgData, setUserFavImgData] = useState([]);
+
+  // Fetch user fav images
   useEffect(
     function () {
       axios
@@ -30,6 +32,7 @@ const SearchImg = (props: ISearchImgProps) => {
     [user?.email]
   );
 
+  // Toggle if img is liked or not
   useEffect(
     function () {
       setHeartToggle(false);
@@ -37,6 +40,7 @@ const SearchImg = (props: ISearchImgProps) => {
     [props.imgData]
   );
 
+  // Send information to server to add img to fav images
   function handleClickAdd() {
     axios.post(
       "http://localhost:3000/usersAddFav",

@@ -4,8 +4,8 @@ import Login from "./Login";
 const Navbar = () => {
   const ActiveTab = useLocation();
 
+  // Used for changing color on active page
   const activeTab = `bg-neutral-900 to-neutral-900 inline-block shadow-[inset_0_1px_4px_rgba(0,0,0,0.6)] py-2 px-4 text-white font-semibold rounded-md`;
-
   const notActiveTab = `bg-neutral-900 rounded-md inline-block py-2 px-4 text-slate-300 shadow-[0_1px_4px_rgba(0,0,0,0.6)] hover:shadow-[inset_0_1px_4px_rgba(0,0,0,0.6)] hover:text-white hover:font-semibold  `;
 
   return (
