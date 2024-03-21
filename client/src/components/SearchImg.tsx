@@ -58,6 +58,17 @@ const SearchImg = (props: ISearchImgProps) => {
         headers: { "Content-Type": "application/json" },
       }
     );
+    axios
+      .get("http://localhost:3000/usersFavImg", {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(function (response) {
+        setUserFavImgData(
+          response.data.users.find(
+            (userData) => userData.userMail === user?.email
+          ).favImg
+        );
+      });
   }
 
   return (
